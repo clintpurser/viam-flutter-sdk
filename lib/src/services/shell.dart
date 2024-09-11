@@ -37,7 +37,7 @@ class ShellClient extends Resource implements ResourceRPCClient {
     client.copyFilesToMachine(request);
   }
 
-  Future<List<File>> copyFilesFromMachine(String name, List<String> paths, bool allowRecursion, bool preserve) async {
+  Future<List<File>> copyFilesFromMachine({String? name, List<String>? paths, bool? allowRecursion, bool? preserve}) async {
     final metadata = CopyFilesFromMachineRequestMetadata(
       name: name,
       paths: paths,
