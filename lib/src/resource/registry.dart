@@ -25,6 +25,7 @@ import '../components/sensor/sensor.dart';
 import '../components/servo/client.dart';
 import '../components/servo/servo.dart';
 import '../resource/base.dart';
+import '../services/shell.dart';
 import '../services/vision.dart';
 
 /// An object representing a resource to be registered.
@@ -64,6 +65,7 @@ class Registry {
     registerSubtype(ResourceRegistration(Motor.subtype, (name, channel) => MotorClient(name, channel)));
     registerSubtype(ResourceRegistration(MovementSensor.subtype, (name, channel) => MovementSensorClient(name, channel)));
     registerSubtype(ResourceRegistration(PowerSensor.subtype, (name, channel) => PowerSensorClient(name, channel)));
+    registerSubtype(ResourceRegistration(ShellClient.subtype, (name, channel) => ShellClient(name, channel)));
     registerSubtype(ResourceRegistration(Sensor.subtype, (name, channel) => SensorClient(name, channel)));
     registerSubtype(ResourceRegistration(Servo.subtype, (name, channel) => ServoClient(name, channel)));
     registerSubtype(ResourceRegistration(VisionClient.subtype, (name, channel) => VisionClient(name, channel)));

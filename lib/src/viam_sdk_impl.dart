@@ -2,6 +2,7 @@ import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
 import 'package:viam_sdk/protos/app/data_sync.dart';
 import 'package:viam_sdk/protos/app/dataset.dart';
+import 'package:viam_sdk/protos/service/shell.dart';
 
 import '../protos/app/app.dart';
 import '../protos/app/billing.dart';
@@ -24,6 +25,8 @@ class ViamImpl implements Viam {
   late BillingClient _billingClient;
   late DataClient _dataClient;
   late ProvisioningClient _provisioningClient;
+
+  late ShellServiceClient _shellClient;
 
   ViamImpl._withChannel(this._clientChannelBase) {
     _appClient = AppClient(AppServiceClient(_clientChannelBase));
@@ -49,6 +52,8 @@ class ViamImpl implements Viam {
         options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
       ),
     ));
+
+    _shellClient = ShellServiceClient(_clientChannelBase);
   }
 
   static Future<ViamImpl> withApiKey(String apiKeyId, String apiKey, {String serviceHost = 'app.viam.com'}) async {
