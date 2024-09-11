@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:grpc/grpc_connection_interface.dart';
 import 'package:viam_sdk/src/gen/service/shell/v1/shell.pbgrpc.dart';
@@ -37,7 +37,7 @@ class ShellClient extends Resource implements ResourceRPCClient {
     client.copyFilesToMachine(request);
   }
 
-  Future<List<File>> copyFilesFromMachine({String? name, List<String>? paths, bool? allowRecursion, bool? preserve}) async {
+  Future<List<Uint8List>> copyFilesFromMachine({String? name, List<String>? paths, bool? allowRecursion, bool? preserve}) async {
     final metadata = CopyFilesFromMachineRequestMetadata(
       name: name,
       paths: paths,
@@ -47,17 +47,18 @@ class ShellClient extends Resource implements ResourceRPCClient {
 
     final request = Stream.value(CopyFilesFromMachineRequest(metadata: metadata));
     final responses = client.copyFilesFromMachine(request);
+
+    List<Uint8List> files = [];
     try {
       await for (final response in responses) {
-        print(response);
-        if (response.fileData.eof) print('eof');
-        print(response.fileData.data);
+        files.add(Uint8List.fromList(response.fileData.data));
       }
     } catch (e) {
       print(e);
     }
 
-    return [];
+    // TODO grab contents of responses and reconstruct files and return them.
+    return files;
   }
 
   @override
